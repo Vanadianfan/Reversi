@@ -1,0 +1,20 @@
+# VS Code
+.vscode/
+
+# build / 執行檔（依語言調整）
+build/
+dist/
+out/
+
+# 二進位檔
+*.exe
+*.out
+*.app
+*.class
+
+# OS
+.DS_Store
+
+# 個人環境檔
+.env
+.env.*
