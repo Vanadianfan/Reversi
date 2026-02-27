@@ -6,6 +6,7 @@ public class Reversi extends JPanel {
     public final static int UNIT_SIZE = 80;
     Board board;
     Player currentPlayer;  // 現在の手番のプレイヤー(保守なし、スレッドに送る用)
+    final static String DROP_AUDIO_PATH = "content/audio/drop.wav";
 
     // コンストラクタ(初期化)
     public Reversi() {
@@ -63,12 +64,14 @@ public class Reversi extends JPanel {
     // コンピュータの手番スレッド
     class ComputerThread extends Thread {
         @Override
+        @SuppressWarnings("CallToPrintStackTrace")
         public void run() {
             try {
                 Thread.sleep(1000);  // 1秒間待つ
                 Point p = currentPlayer.nextMove(board);
                 if (p.x != -1 && p.y != -1) {
                     if (!board.setStone(p.x, p.y, currentPlayer.getColor())) return;
+                    AudioPlayer.playSound(DROP_AUDIO_PATH);
                     System.out.println("[Info] Computer chosed position (" + p.x + ", " + p.y + ").");
                     update();
                 }
@@ -125,6 +128,7 @@ public class Reversi extends JPanel {
                 int col = point.x / UNIT_SIZE;
                 int row = point.y / UNIT_SIZE;
                 if (board.setStone(row, col, Stone.BLACK)){
+                    AudioPlayer.playSound(DROP_AUDIO_PATH);
                     update();
                     if (board.player2.isComputerPlayer()) {
                         currentPlayer = board.player2;
@@ -140,6 +144,7 @@ public class Reversi extends JPanel {
                 int col = point.x / UNIT_SIZE;
                 int row = point.y / UNIT_SIZE;
                 if (board.setStone(row, col, Stone.WHITE)){
+                    AudioPlayer.playSound(DROP_AUDIO_PATH);
                     update();
                     if (board.player1.isComputerPlayer()) {
                         currentPlayer = board.player1;
